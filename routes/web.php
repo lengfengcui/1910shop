@@ -23,3 +23,5 @@ Route::get('/test/hello','TestController@hello');
 Route::get('/test/redis1','TestController@redis1');
 //商品
 Route::get('/goods/detail','Goods\GoodsController@detail');//商品详情
+//用户注册
+Route::get('/user/reg','User\UserController@reg');
