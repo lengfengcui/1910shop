@@ -50,8 +50,10 @@ class IndexController extends Controller
         ];
         $res=UserModel::insert($data);
         if($res){
+            header('Refresh:1;url=/user/login');
             echo "注册成功";
         }else{
+            header('Refresh:1;url=/user/reg');
             echo "注册失败";
         }
     }
