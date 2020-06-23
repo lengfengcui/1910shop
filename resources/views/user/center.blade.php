@@ -9,6 +9,7 @@
     <title>中心</title>
 </head>
 <body>
-    用户中心
+    用户中心<br>
+    {{$_COOKIE['name']}},欢迎回来
 </body>
 </html>

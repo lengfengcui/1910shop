@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\UserModel;
+use Illuminate\Support\Facades\Cookie;
 
 class IndexController extends Controller
 {
@@ -69,6 +70,9 @@ class IndexController extends Controller
         //验证密码
         $res=password_verify($pass,$user->password);
         if($res){
+            //向客户端设置cookie
+            Cookie::queue('uid',$user->user_id,60);
+            Cookie::queue('name',$user->user_name,60);
             header('Refresh:1;url=/user/center');
             echo "登录成功";
         }else{
@@ -77,6 +81,18 @@ class IndexController extends Controller
         }
     }
     public function center(){
+        //判断用户是否登录
+       //echo '<pre>';print_r($_COOKIE);echo '</pre>';
+        //判断用户是否登录 ,判断是否有 uid 字段
+
+        if(Cookie::has('uid'))
+        {
+            //已登录
+            return view('user.center');
+        }else{
+            //未登录
+            return redirect('/user/login');
+        }
         return view("user.center");
     }
 }
