@@ -30,7 +30,9 @@ Route::post('/user/reg','User\IndexController@regdo');
 //用户登录
 Route::get('/user/login','User\IndexController@login');
 Route::post('/user/login','User\IndexController@logindo');
-//用户中心
+//个人中心
 Route::get('/user/center','User\IndexController@center');
 //接口开发
 Route::post('/api/user/reg','Api\UserController@reg');//注册
+Route::post('/api/user/login','Api\UserController@login');//登录
+Route::get('/api/user/center','Api\UserController@center');//个人中心
