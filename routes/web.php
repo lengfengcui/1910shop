@@ -38,3 +38,12 @@ Route::post('/api/user/login','Api\UserController@login');//登录
 Route::get('/api/user/center','Api\UserController@center')->middleware('check.pri');//个人中心
 Route::get('/api/user/orders','Api\UserController@orders')->middleware('check.pri');//订单
 Route::get('/api/user/cart','Api\UserController@cart')->middleware('check.pri');//购物车
+Route::get('/api/a','Api\TestController@a')->middleware('check.pri','access.filter');
+Route::get('/api/b','Api\TestController@b')->middleware('check.pri','access.filter');
+Route::get('/api/c','Api\TestController@c')->middleware('check.pri','access.filter');
+//路由分组
+Route::middleware('check.pri','access.filter')->group(function(){
+    Route::get('/api/x','Api\TestController@x');
+    Route::get('/api/y','Api\TestController@y');
+    Route::get('/api/z','Api\TestController@z');
+});
