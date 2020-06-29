@@ -52,4 +52,20 @@ class TestController extends Controller
            echo "验签失败";
        }
     }
+    public function www(){
+        $key = '1910';
+        $url = 'http://api.1910.com/api/info';      //接口地址
+
+        //向接口发送数据
+        //get方式发送
+        $data = 'hello';
+        $sign = sha1($data.$key);
+
+        $url = $url . '?data='.$data.'&sign='.$sign;
+
+        //php 发起网络请求
+        $response = file_get_contents($url);
+        echo $response;
+
+    }
 }

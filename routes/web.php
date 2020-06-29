@@ -12,19 +12,20 @@
 */
 
 Route::get('/', function () {
-    echo "api";
+    echo "www";
     //return view('welcome');
 });
 
 Route::get('/info',function(){
     phpinfo();
 });
-
+Route::get('/test/www','TestController@www');
 Route::get('/test/hello','TestController@hello');
 Route::get('/test/redis1','TestController@redis1');
 Route::get('/test/test1','TestController@test1');
 Route::get('/test/sign1','TestController@sign1');
 Route::get('secret','TestController@secret');
+
 //商品
 Route::get('/goods/detail','Goods\GoodsController@detail');//商品详情
 //用户注册
