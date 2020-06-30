@@ -116,4 +116,52 @@ class TestController extends Controller
         curl_close($ch);
         echo $response;
     }
+    public function encrypt1(){
+        $data="少年强，则国强";
+        $method="AES-256-CBC";
+        $key='1910api';
+        $iv='hellohellohelloo';
+
+
+        //加密
+        $enc_data=openssl_encrypt($data,$method,$key,OPENSSL_RAW_DATA,$iv);
+
+        $sign = sha1($enc_data.$key);   //签名
+        //echo "加密后的密文：".$enc_data;
+        //组合post数据
+        $post_data = [
+            'data'  => $enc_data,
+            'sign'  => $sign
+        ];
+
+        //将密文发送到对端 post
+        $url = 'http://api.1910.com/test/decrypt1';
+        //curl初始化
+        $ch = curl_init();
+        //设置参数
+        curl_setopt($ch,CURLOPT_URL,$url);      // post 地址
+        curl_setopt($ch,CURLOPT_POST,1);  // post方式发送数据
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$post_data);      // post的数据
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);      //通过变量接收响应
+
+        //开启会话（发送请求）
+        $response = curl_exec($ch);         //接收响应
+        echo $response;
+
+
+        //捕捉错误
+        $errno = curl_errno($ch);
+        if($errno)
+        {
+            $errmsg = curl_error($ch);
+            var_dump($errmsg);
+            die;
+        }
+
+        //关闭连接
+        curl_close($ch);
+
+
+
+    }
 }
