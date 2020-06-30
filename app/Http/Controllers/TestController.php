@@ -162,6 +162,16 @@ class TestController extends Controller
         curl_close($ch);
 
 
+    }
+    public function rsaEncrypt1(){
+        $data = "春眠不觉晓，处处闻啼鸟"; //待加密数据
+        //使用公钥加密
+        $key_content = file_get_contents(storage_path('keys/pub.key'));     //读取公钥内容
+        $pub_key = openssl_get_publickey($key_content);
+        openssl_public_encrypt($data,$enc_data,$pub_key);           //加密
+        var_dump($enc_data);
+        echo '<hr>';
+
 
     }
 }

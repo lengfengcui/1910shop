@@ -20,7 +20,8 @@ Route::get('/info',function(){
     phpinfo();
 });
 Route::prefix('/test')->group(function(){
-    Route::get('/encrypt1','TestController@encrypt1');
+    Route::get('/encrypt1','TestController@encrypt1');//对称加密
+    Route::get('/encrypt1','TestController@rsaEncrypt1');//非对称加密
     Route::get('/post-data','TestController@postData');
     Route::get('/send-data','TestController@sendData');
     Route::get('/www','TestController@www');
