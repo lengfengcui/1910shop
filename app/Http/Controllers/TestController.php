@@ -170,8 +170,46 @@ class TestController extends Controller
         $pub_key = openssl_get_publickey($key_content);
         openssl_public_encrypt($data,$enc_data,$pub_key);           //加密
         var_dump($enc_data);
-        echo '<hr>';
-
 
     }
+    public function sendB(){
+        $data = "春眠不觉晓";        //待加密数据
+        //公钥加密
+        $key = openssl_get_publickey( file_get_contents(storage_path('keys/b_pub.key')) );     //读取公钥
+        openssl_public_encrypt($data,$enc_data,$key);
+
+        //base64编码 密文
+        $base64_data = base64_encode($enc_data);
+
+        $url = 'http://api.1910.com/get-a?data='.urlencode($base64_data);
+        $response=file_get_contents($url);
+        //echo "response：".$response;
+
+        $json_arr = json_decode($response,true);
+
+        $enc_data = base64_decode($json_arr['data']);       //密文
+        //解密
+        $key = openssl_get_privatekey(file_get_contents(storage_path('keys/a_priv.key')));
+        openssl_private_decrypt($enc_data,$dec_data,$key);
+
+        echo $dec_data;die;
+
+    }
+   public function rsaSign1()
+    {
+       $data = "春眠不觉晓";
+
+        //计算签名
+        $key = openssl_get_privatekey( file_get_contents( storage_path('keys/a_priv.key')));
+        openssl_sign($data,$sign,$key);
+
+        $sign_str = urlencode(base64_encode($sign));
+        //将数据和 签名一起发送  GET / POST
+        $url = 'http://api.1910.com/rsa/verify1?data='.$data . '&sign='.$sign_str;
+
+
+        file_get_contents($url);
+        $response = file_get_contents($url);
+        echo $response;
+   }
 }
